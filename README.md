@@ -1,2 +1,2 @@
-# SQL # HTML
+# SQL HTML
 Some examples of sql,html
