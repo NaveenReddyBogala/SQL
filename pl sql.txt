@@ -1,0 +1,183 @@
+PL/SQL
+-- example1
+DECLARE
+   test  varchar2(20):= 'Hello, World!';
+BEGIN
+   dbms_output.put_line(test);
+END;
+
+-- example2
+declare
+subtype name is char(20);
+subtype message is varchar2(100);
+testname name;
+testmessage message;
+begin
+testname:='dev';
+testmessage:='welcome';
+dbms_output.put_line('hello   ' || testname || testmessage);
+end;
+-- example3
+declare
+num1 number:=88;
+num2 number:=67;
+begin
+dbms_output.put_line('outer num1: ' || num1);
+dbms_output.put_line('outer num2: ' || num2);
+declare
+num1 number :=199;
+num2 number :=123;
+begin
+dbms_output.put_line('inner num1: ' || num1);
+dbms_output.put_line('inner num2: ' || num2);
+end;
+
+-- example4
+declare
+x number;
+begin
+ for i in 1..10 loop
+   if mod(i,2)=0 then
+    dbms_output.put_line(i || '  i is even');
+   else
+     dbms_output.put_line(i || '  i is odd');
+    end if;
+  end loop;
+end;
+
+-- example5
+create table trainee(
+rollno numeric,
+fname varchar(10),
+lname varchar(10),
+emailid varchar(10)
+);
+
+insert into trainee
+values(421,'guru','g','exa1@gmail.com');
+
+insert into trainee
+values(422,'naveen','n','exa1@gmail.com');
+
+insert into trainee
+values(423,'kumar','k','exa1@gmail.com');
+
+insert into trainee
+values(424,'reddy','r','exa1@gmail.com');
+
+
+DECLARE 
+   c_id trainee.rollno%type := 123; 
+   c_fname  trainee.fname%type; 
+   c_lname varchar(10); 
+   c_emailid  varchar(20); 
+BEGIN 
+   SELECT rollno, fname, lname ,emailid INTO c_id ,c_fname,c_lname,c_emailid 
+   FROM trainee 
+   WHERE rollno = c_id;  
+   dbms_output.put_line('Trainee ' ||c_fname); 
+END; 
+/
+
+
+
+
+DECLARE  
+   total_rows number(2); 
+BEGIN 
+   UPDATE trainee 
+   SET emailid = 'changed@email.com'; 
+   IF sql%notfound THEN 
+      dbms_output.put_line('no trainees selected'); 
+   ELSIF sql%found THEN 
+      total_rows := sql%rowcount;
+      dbms_output.put_line( total_rows || ' trainees selected '); 
+   END IF;  
+END; 
+/ 
+
+
+select * from trainee;
+
+
+
+DECLARE 
+   c_id trainee.rollno%type; 
+   c_name trainee.fname%type; 
+   c_emailid varchar(30); 
+   CURSOR c_trainee is 
+      SELECT rollno, fname, emailid FROM trainee; 
+BEGIN 
+   OPEN c_trainee; 
+   LOOP 
+   FETCH c_trainee into c_id, c_name, c_emailid; 
+      EXIT WHEN c_trainee%notfound; 
+      dbms_output.put_line(c_id || ' ' || c_name || ' ' || c_emailid); 
+   END LOOP; 
+   CLOSE c_trainee; 
+END; 
+/
+-- example 6
+DECLARE 
+   c_id trainee.rollno%type := 983; 
+   c_name trainee.fname%type; 
+   c_emailid trainee.emailid%type; 
+BEGIN 
+   SELECT  fname, emailid INTO  c_name, c_emailid 
+   FROM trainee 
+   WHERE rollno = c_id;  
+   DBMS_OUTPUT.PUT_LINE ('Name: '||  c_name); 
+   DBMS_OUTPUT.PUT_LINE ('Email Address: ' || c_emailid); 
+
+ 
+
+EXCEPTION 
+   WHEN no_data_found THEN 
+      dbms_output.put_line('No such trainee!'); 
+   WHEN others THEN 
+      dbms_output.put_line('Error!'); 
+END; 
+/
+
+ 
+
+DECLARE 
+   train trainee%rowtype; 
+BEGIN 
+   SELECT * into train 
+   FROM trainee 
+   WHERE rollno = 123;  
+   dbms_output.put_line('Rollno: ' || train.rollno); 
+   dbms_output.put_line('Trainee Name: ' || train.fname); 
+   dbms_output.put_line('Trainee Name: ' || train.lname); 
+   dbms_output.put_line('Trainee Emailid: ' || train.emailid); 
+END; 
+/
+
+ 
+
+
+DECLARE 
+   CURSOR train is 
+      SELECT rollno, fname, lname,emailid  
+      FROM trainee; 
+   trainrec train%rowtype; 
+BEGIN 
+   OPEN train; 
+   LOOP 
+      FETCH train into trainrec; 
+      EXIT WHEN train%notfound; 
+      DBMS_OUTPUT.put_line(trainrec.rollno || ' ' || trainrec.fname); 
+   END LOOP; 
+END; 
+/
+
+
+--
+
+
+
+
+
+
+end;
