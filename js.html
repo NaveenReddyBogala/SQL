@@ -1,0 +1,23 @@
+<html>
+<body>
+<h1>enter age:<input type="text" id="t1"></h1>
+<button type="button" onclick="ver()">verify</button>
+<script>
+function ver()
+{
+  if (document.getElementById("t1").value>=18)
+{
+  document.getElementById("ref").innerHTML="eligible for voting";
+
+}
+else
+{
+document.getElementById("ref").innerHTML="not eligible for voting";
+}
+}
+
+</script><br><br>
+<div id="ref"></div>
+</body>
+
+</html>
