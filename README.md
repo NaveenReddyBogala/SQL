@@ -1,2 +1,2 @@
-# SQL HTML
-Some examples of sql,html
+# SQL HTML JAVA
+Some examples and assignments of sql,html,java
